@@ -8,15 +8,12 @@ public class CryptoBridge {
 
         System.out.println("\n========== CryptoBridge.encrypt() ==========");
 
-        System.out.println("Input Size : " + input.size());
-
-        System.out.println("\n========== ORIGINAL INPUT ==========");
+        System.out.println("Original Input:");
 
         for (int i = 0; i < input.size(); i++) {
             System.out.println(
-                    "[" + i + "] " +
-                            "Message = '" + input.get(i)[0] + "' (" + input.get(i)[0].length() + ")" +
-                            " | Key = '" + input.get(i)[1] + "' (" + input.get(i)[1].length() + ")"
+                    "[" + i + "] Message = " + input.get(i)[0]
+                            + " | Key = " + input.get(i)[1]
             );
         }
 
@@ -28,12 +25,15 @@ public class CryptoBridge {
 
             String wrappedMessage = test.START + pair[0] + test.SUPER_END;
 
+            System.out.println("Wrapping:");
+            System.out.println(pair[0]);
+            System.out.println("->");
+            System.out.println(wrappedMessage);
+
             wrapped.add(new String[]{
                     wrappedMessage,
                     pair[1]
             });
-
-            System.out.println("Wrapped : " + wrappedMessage);
         }
 
         System.out.println("--------------------------------");
@@ -43,14 +43,7 @@ public class CryptoBridge {
 
         ArrayList<Integer>[] xy = encrypt.encrypt(wrapped);
 
-        System.out.println("--------------------------------");
         System.out.println("Encrypt.encrypt() finished");
-
-        System.out.println("PointsX Size : " + xy[0].size());
-        System.out.println("PointsY Size : " + xy[1].size());
-
-        System.out.println("PointsX : " + xy[0]);
-        System.out.println("PointsY : " + xy[1]);
 
         System.out.println("--------------------------------");
         System.out.println("Generating Blocks");
@@ -61,15 +54,6 @@ public class CryptoBridge {
                 blocker.generateBlocks(xy, wrapped.size());
 
         System.out.println("Blocks Generated : " + blocks.size());
-
-        for (int i = 0; i < blocks.size(); i++) {
-
-            System.out.println(
-                    "Block " + i +
-                            " X=" + blocks.get(i)[0].size() +
-                            " Y=" + blocks.get(i)[1].size()
-            );
-        }
 
         Polynomial[] polynomials = new Polynomial[blocks.size()];
 
@@ -93,6 +77,7 @@ public class CryptoBridge {
 
         System.out.println("--------------------------------");
         System.out.println("Ciphertext:");
+
         System.out.println(cipher);
 
         System.out.println("========== END CryptoBridge.encrypt() ==========\n");

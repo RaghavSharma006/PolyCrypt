@@ -4,7 +4,10 @@ import com.raghav.polycrypt.CryptoBridge;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 @Controller
@@ -98,32 +101,19 @@ public class CryptoController {
 
     @PostMapping("/decrypt")
     public String decrypt(
-            @RequestParam String ciphertext,
+            @RequestParam(required = false) String ciphertext,
+            @RequestParam(required = false) MultipartFile file,
             @RequestParam String key,
-            Model model) {
+            Model model) throws IOException {
 
-        System.out.println("\n================ DECRYPT REQUEST RECEIVED ================");
-
-        System.out.println("Key:");
-        System.out.println(key);
-
-        System.out.println("--------------------------------");
-        System.out.println("Ciphertext:");
-        System.out.println(ciphertext);
-
-        System.out.println("--------------------------------");
-        System.out.println("Calling CryptoBridge.decrypt()");
+        // If a file was uploaded, use it instead of the textarea
+        if (file != null && !file.isEmpty()) {
+            ciphertext = new String(file.getBytes(), StandardCharsets.UTF_8);
+        }
 
         String message = bridge.decrypt(ciphertext, key);
 
-        System.out.println("--------------------------------");
-        System.out.println("Recovered Message:");
-        System.out.println(message);
-
         model.addAttribute("message", message);
-
-        System.out.println("Returning decrypt.html");
-        System.out.println("==========================================================\n");
 
         return "decrypt";
     }

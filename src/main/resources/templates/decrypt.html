@@ -39,11 +39,19 @@
 
         <!-- LEFT PANEL: FORM -->
         <section class="left-panel">
-            <form id="decryptForm" method="post" th:action="@{/decrypt}">
+            <!-- MODIFIED: Added enctype="multipart/form-data" -->
+            <form id="decryptForm" method="post" th:action="@{/decrypt}" enctype="multipart/form-data">
                 <div class="decrypt-card">
                     <div class="input-group">
                         <label for="ciphertext">Ciphertext</label>
-                        <textarea id="ciphertext" name="ciphertext" rows="8" placeholder="Paste encrypted ciphertext here..." required></textarea>
+                        <!-- MODIFIED: Removed required attribute to allow file-only submission -->
+                        <textarea id="ciphertext" name="ciphertext" rows="8" placeholder="Paste encrypted ciphertext here..."></textarea>
+                    </div>
+
+                    <!-- NEW: File Input direct sub-group -->
+                    <div class="input-group">
+                        <label for="file">Or Upload File (.txt, .poly, .polycrypt)</label>
+                        <input type="file" id="file" name="file" accept=".txt,.poly,.polycrypt">
                     </div>
 
                     <div class="input-group">
