@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PolyCrypt</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+</head>
+
+<body>
+
+<div class="background"></div>
+
+<nav class="navbar">
+
+    <div class="logo">
+        POLYCRYPT
+    </div>
+
+    <div class="nav-links">
+
+        <a th:href="@{/}">
+            Home
+        </a>
+
+        <a th:href="@{/encrypt}">
+            Encrypt
+        </a>
+
+        <a th:href="@{/decrypt}">
+            Decrypt
+        </a>
+
+        <a th:href="@{/learn}">
+            Learn
+        </a>
+
+    </div>
+
+</nav>
+
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <h1>
+
+            Multi-Key
+            <span>Polynomial Encryption</span>
+
+        </h1>
+
+        <p>
+
+            Secure multiple meaningful messages inside one ciphertext using
+            polynomial interpolation.
+
+        </p>
+
+        <div class="buttons">
+
+            <a class="primary" th:href="@{/encrypt}">
+                Encrypt
+            </a>
+
+            <a class="secondary" th:href="@{/decrypt}">
+                Decrypt
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<script th:src="@{/js/main.js}"></script>
+
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encrypt | PolyCrypt</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/encrypt.css?v=lock1}">
+</head>
+
+<body>
+
+<div class="background"></div>
+
+<!-- NAVIGATION BAR -->
+<nav class="navbar">
+    <div class="logo">POLYCRYPT</div>
+    <div class="nav-links">
+        <a th:href="@{/}">Home</a>
+        <a class="active-nav" th:href="@{/encrypt}">Encrypt</a>
+        <a th:href="@{/decrypt}">Decrypt</a>
+        <a th:href="@{/learn}">Learn</a>
+    </div>
+</nav>
+
+<!-- MAIN CONTENT CONTAINER -->
+<div class="encrypt-container-wrapper">
+
+    <!-- HEADER SECTION: Centered Under Navbar -->
+    <header class="encrypt-header">
+        <div class="badge-pill">POLYNOMIAL ENCRYPTION ENGINE</div>
+        <h1>Encrypt Secret Messages</h1>
+        <p>Encode multiple secret message-key pairs into a single polynomial ciphertext. Each recipient recovers only their specific message using their designated secret key.</p>
+    </header>
+
+    <!-- TWO-COLUMN WORKSPACE -->
+    <main class="encrypt-page">
+        <!-- LEFT PANEL: Cards -->
+        <section class="left-panel">
+            <form id="encryptForm" method="post" th:action="@{/encrypt}">
+
+                <!-- Deck Dots -->
+                <div id="deckDots" class="deck-dots">
+                    <span class="dot active"></span>
+                </div>
+
+                <!-- Message Card Frame -->
+                <div id="messageContainer">
+                    <div class="message-card active">
+                        <div class="card-header">
+                            <span class="message-title">Message 01</span>
+                            <button type="button" class="delete-btn">✕</button>
+                        </div>
+                        <div class="input-group message-group">
+                            <label>Message</label>
+                            <textarea name="message" placeholder="Write your hidden message..." required></textarea>
+                        </div>
+                        <div class="input-group key-group">
+                            <label>Key</label>
+                            <input type="text" name="key" placeholder="Secret key..." required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Controls -->
+                <div class="navigation-bar">
+                    <button id="prevCard" class="edge-btn" type="button">❮</button>
+                    <button id="addMessage" class="add-btn" type="button">＋ Add Message</button>
+                    <button id="nextCard" class="edge-btn" type="button">❯</button>
+                </div>
+
+            </form>
+        </section>
+
+        <!-- RIGHT PANEL: Action & Status -->
+        <aside class="right-panel">
+            <div class="status-card">
+                <button class="encrypt-btn" type="submit" form="encryptForm">
+                    Encrypt Cipher
+                </button>
+
+                <div class="status-title">Encryption Flow</div>
+
+                <div class="flow">
+                    <div class="flow-step" data-step="1">
+                        <span class="flow-dot"></span> Plaintext
+                    </div>
+                    <div class="flow-step" data-step="2">
+                        <span class="flow-dot"></span> Padding
+                    </div>
+                    <div class="flow-step" data-step="3">
+                        <span class="flow-dot"></span> Point Generation
+                    </div>
+                    <div class="flow-step" data-step="4">
+                        <span class="flow-dot"></span> Polynomial
+                    </div>
+                    <div class="flow-step" data-step="5">
+                        <span class="flow-dot"></span> Ciphertext
+                    </div>
+                </div>
+
+                <div class="stats">
+                    <div>
+                        Messages <strong id="statMessages">1</strong>
+                    </div>
+                    <div>
+                        Degree <strong id="statDegree">0</strong>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <!-- CIPHER OUTPUT -->
+    <section class="cipher-output" th:if="${ciphertext}">
+        <div class="cipher-card">
+            <div class="cipher-header">
+                <div>
+                    <h2>Generated Ciphertext</h2>
+                    <p>Share this ciphertext. Only a valid key can recover its hidden secret.</p>
+                </div>
+                <div class="cipher-badge">ENCRYPTED</div>
+            </div>
+
+            <textarea id="cipherText" readonly rows="8" th:text="${ciphertext}"></textarea>
+
+            <div class="cipher-actions">
+                <button id="copyCipher" type="button">📋 Copy</button>
+                <button id="downloadCipher" type="button">⬇ Download</button>
+                <button id="clearCipher" type="button">🗑 Clear</button>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- LOADING OVERLAY -->
+<div id="loadingOverlay" class="loading-overlay">
+    <div class="loader-card">
+        <div class="loader-spinner"></div>
+        <h2>Encrypting...</h2>
+        <p id="loaderStatus">Preparing encryption engine...</p>
+    </div>
+</div>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

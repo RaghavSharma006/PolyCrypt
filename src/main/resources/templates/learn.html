@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn | PolyCrypt</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/learn.css}">
+</head>
+<body>
+
+<div class="background"></div>
+
+<!-- NAVIGATION BAR -->
+<nav class="navbar">
+    <div class="logo">
+        POLYCRYPT
+    </div>
+    <div class="nav-links">
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/encrypt}">Encrypt</a>
+        <a th:href="@{/decrypt}">Decrypt</a>
+        <a class="active-nav" th:href="@{/learn}">Learn</a>
+    </div>
+</nav>
+
+<!-- MAIN HERO CONTENT -->
+<main class="hero">
+    <div class="badge-pill">CRYPTOGRAPHIC MATHEMATICS</div>
+    <h1>
+        How Polynomial Interpolation Powers Multi-Key Security
+    </h1>
+    <p class="hero-description">
+        PolyCrypt leverages Lagrange polynomial interpolation to securely associate multiple secret messages with different secret keys.
+    </p>
+
+    <div class="hero-cards">
+        <div class="feature-card">
+            <div class="feature-icon">1️⃣</div>
+            <h3>Secret Point Construction</h3>
+            <p>
+                Each secret message is converted into a numeric representation <code>y<sub>i</sub></code>. The corresponding secret key is treated as the coordinate <code>x<sub>i</sub></code>, forming a unique point:
+            </p>
+            <div class="math-formula">(x<sub>i</sub>, y<sub>i</sub>)</div>
+            <div class="card-footer-note">Every key–message pair becomes a point on a polynomial.</div>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">2️⃣</div>
+            <h3>Polynomial Generation</h3>
+            <p>
+                Using all generated points, PolyCrypt constructs a unique polynomial <code>P(x)</code> of degree <code>N - 1</code> that passes exactly through every point:
+            </p>
+            <div class="math-formula">
+                (x<sub>1</sub>, y<sub>1</sub>), (x<sub>2</sub>, y<sub>2</sub>), &hellip;, (x<sub>N</sub>, y<sub>N</sub>)
+            </div>
+            <div class="card-footer-note">This single polynomial mathematically encodes every hidden message.</div>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">3️⃣</div>
+            <h3>Key-Specific Decryption</h3>
+            <p>
+                During decryption, the provided key is used as the input <code>x</code> to evaluate the polynomial:
+            </p>
+            <div class="math-formula">
+                P(x<sub>i</sub>) = y<sub>i</sub>
+            </div>
+            <div class="card-footer-note">If the key is valid, the corresponding message is recovered. Any other value produces an unrelated result, preventing access to the hidden messages associated with other keys.</div>
+        </div>
+    </div>
+</main>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>
