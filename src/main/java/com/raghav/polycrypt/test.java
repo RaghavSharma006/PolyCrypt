@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-@SpringBootApplication
 public class test {
     static int MAX=4;
     public static final char START      = '\uE000'; // Start of Message (SOM)

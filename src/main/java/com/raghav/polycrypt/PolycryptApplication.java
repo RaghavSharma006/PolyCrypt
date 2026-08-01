@@ -7,7 +7,6 @@ import java.math.BigDecimal;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
-@SpringBootApplication
 public class PolycryptApplication {
 
 	public static void main(String[] args) throws Exception {
@@ -49,7 +48,6 @@ public class PolycryptApplication {
 		}
 		System.out.println();
 		System.out.println("Hello World");
-		SpringApplication.run(PolycryptApplication.class, args);
 	}
 
 }
