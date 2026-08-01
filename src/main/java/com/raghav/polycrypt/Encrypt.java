@@ -63,7 +63,6 @@ public class Encrypt {
         for (int i = 0; i < lengthOfMessage;) {
 
             for (int j = 0; j < messageInput.length && i < lengthOfMessage; j++) {
-                System.out.println(messageInput[j] + "" + j + "" + count);
 
                 int x = Math.abs(generateHash(messageInput[j] + "" + j + "" + count));
 
@@ -71,9 +70,7 @@ public class Encrypt {
                 if ((i & 1) == 1) {
                     x = -x;
                 }
-                System.out.printf("ENC %-3s -> %d%n",
-                        messageInput[j] + "" + j + "" + count,
-                        x);
+
                 pointsX.add(x);
                 i++;
             }

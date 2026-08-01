@@ -12,8 +12,11 @@ public class Blocker {
 
          System.out.println(height);
 
+         System.out.println("MAX:"+MAX+""+height);
          int width=MAX/height;
+         System.out.println(width);
          int row=XY[1].size()/ height;
+         System.out.println("Hello");
 
 
         //Y,X of Each Block;
@@ -21,8 +24,11 @@ public class Blocker {
 
         for(int j=0;j<XY[1].size();j++) {
             int rowNumber =j/row;
+            System.out.println("Hello");
             int index=j-(row*rowNumber);
+            System.out.println("WTF");
             int blockNumber= index /width;
+            System.out.println("Hello");
 
 
             while (blocks.size() <= blockNumber) {
@@ -44,7 +50,7 @@ public class Blocker {
 
         }
 
-
+         System.out.println("BYE bye");
         return blocks;
 
 
