@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class test {
-    static int MAX=10;
+    static int MAX=15;
     public static final char START      = '\uE000'; // Start of Message (SOM)
     public static final char END        = '\uE001'; // End of Block for this message (EOM)
     public static final char SUPER_END  = '\uE002'; // End of Message (no more blocks)

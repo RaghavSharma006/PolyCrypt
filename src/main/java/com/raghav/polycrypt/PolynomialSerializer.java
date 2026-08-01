@@ -1,12 +1,18 @@
 package com.raghav.polycrypt;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 public class PolynomialSerializer {
 
     /**
-     * Polynomial[] -> String
+     * Polynomial[] -> Compressed Base64 String
      */
     public static String serialize(Polynomial[] polynomials) {
 
@@ -22,25 +28,59 @@ public class PolynomialSerializer {
 
                 if (j != coefficients.length - 1)
                     sb.append(",");
-
             }
 
             if (i != polynomials.length - 1)
                 sb.append("|");
         }
 
-        return Base64.getEncoder()
-                .encodeToString(sb.toString().getBytes());
+        try {
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+            GZIPOutputStream gzip = new GZIPOutputStream(baos);
+
+            gzip.write(sb.toString().getBytes(StandardCharsets.UTF_8));
+
+            gzip.close();
+
+            return Base64.getEncoder().encodeToString(baos.toByteArray());
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
-     * String -> Polynomial[]
+     * Compressed Base64 String -> Polynomial[]
      */
     public static Polynomial[] deserialize(String ciphertext) {
 
-        String decoded = new String(
-                Base64.getDecoder().decode(ciphertext)
-        );
+        String decoded;
+
+        try {
+
+            byte[] compressed = Base64.getDecoder().decode(ciphertext);
+
+            GZIPInputStream gzip =
+                    new GZIPInputStream(new ByteArrayInputStream(compressed));
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+            byte[] buffer = new byte[1024];
+            int len;
+
+            while ((len = gzip.read(buffer)) != -1) {
+                baos.write(buffer, 0, len);
+            }
+
+            gzip.close();
+
+            decoded = baos.toString(StandardCharsets.UTF_8);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         String[] polynomialStrings = decoded.split("\\|");
 
@@ -61,5 +101,4 @@ public class PolynomialSerializer {
 
         return polynomials;
     }
-
 }

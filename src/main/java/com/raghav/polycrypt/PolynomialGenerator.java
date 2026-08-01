@@ -23,29 +23,37 @@ public class PolynomialGenerator {
 
         polynomialSize=pointsX.size();
 
+        Polynomial bigAssPolynomial = new Polynomial(1);
+        bigAssPolynomial.coefficients[0] = BigDecimal.ONE;
+
+        for (Integer x : pointsX) {
+            Polynomial temp = new Polynomial(2);
+            temp.coefficients[0] = BigDecimal.valueOf(-x);
+            temp.coefficients[1] = BigDecimal.ONE;
+            bigAssPolynomial = multiply(bigAssPolynomial, temp);
+        }
+
+        BigDecimal[] denominator = new BigDecimal[pointsX.size()];
+        Polynomial[] numerators = new Polynomial[pointsX.size()];
+
+        for (int i = 0; i < pointsX.size(); i++) {
+
+            numerators[i] = divideByLinear(
+                    bigAssPolynomial,
+                    BigDecimal.valueOf(pointsX.get(i))
+            );
+
+            denominator[i] =getPolynomialValue(numerators[i], BigDecimal.valueOf(pointsX.get(i))
+            );
+        }
+
+
         Polynomial polynomial = new Polynomial(polynomialSize);
 
-
         for(int i = 0; i < pointsX.size(); i++){
-            Polynomial tempPolynomial = new Polynomial(1);
-            tempPolynomial.coefficients[0]= BigDecimal.valueOf(1);
-
-            for(int j=0;j<pointsX.size();j++){
-                if(i==j) continue;
-                Polynomial current= new Polynomial(2);
-                current.coefficients[0] = BigDecimal.valueOf(-pointsX.get(j));
-                current.coefficients[1] = BigDecimal.valueOf(1);
-                tempPolynomial=multiply(tempPolynomial,current);
-            }
-
-            tempPolynomial = divideByConstant(
-                    tempPolynomial,
-                    getPolynomialValue(tempPolynomial, BigDecimal.valueOf(pointsX.get(i)))
-            );
-            tempPolynomial = multiplyByConstant(tempPolynomial, BigDecimal.valueOf(pointsY.get(i)));
-
-
-            polynomial=add(polynomial,tempPolynomial);
+            Polynomial temp= divideByConstant(numerators[i],denominator[i]);
+            temp=multiplyByConstant(temp, BigDecimal.valueOf(pointsY.get(i)));
+            polynomial=add(polynomial,temp);
         }
 
         return polynomial;
@@ -83,6 +91,32 @@ public class PolynomialGenerator {
 
         Polynomial ans = new Polynomial(result.length);
         ans.coefficients = result;
+
+        return ans;
+    }
+
+    Polynomial divideByLinear(Polynomial polynomial, BigDecimal root) {
+
+        BigDecimal[] a = polynomial.coefficients;
+        BigDecimal[] quotient = new BigDecimal[a.length - 1];
+
+        // Highest degree coefficient
+        quotient[quotient.length - 1] = a[a.length - 1];
+
+        // Synthetic division
+        for (int i = quotient.length - 2; i >= 0; i--) {
+            quotient[i] = a[i + 1].add(
+                    quotient[i + 1].multiply(root)
+            );
+        }
+
+        // Optional remainder (should be ZERO for your master polynomial)
+        BigDecimal remainder = a[0].add(
+                quotient[0].multiply(root)
+        );
+
+        Polynomial ans = new Polynomial(quotient.length);
+        ans.coefficients = quotient;
 
         return ans;
     }
