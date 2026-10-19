@@ -181,7 +181,7 @@ Supporting larger messages requires generating additional interpolation blocks a
 
 ### Backend
 
-Designed and implemented entirely by **Raghav Sharma**.
+Designed and implemented entirely by **Raghav Sharma**,**Chimdi**.
 
 ### Frontend
 
